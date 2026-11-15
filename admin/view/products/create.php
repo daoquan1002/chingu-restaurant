@@ -1,0 +1,98 @@
+<?php
+$pageTitle = "Thêm Món Ăn Mới • Chingu Admin";
+include_once __DIR__ . '/../layouts/header.php';
+?>
+
+<div class="mb-4">
+  <a href="index.php?act=products" class="text-white-50 text-decoration-none small">
+    <i class="bi bi-arrow-left"></i> Quay lại danh sách món ăn
+  </a>
+  <h3 class="fw-bold text-white mt-2 mb-1">Thêm Món Ăn Mới Vào Thực Đơn</h3>
+  <p class="text-white-50 small mb-0">Nhập đầy đủ thông tin để món ăn xuất hiện trên giao diện đặt món của khách</p>
+</div>
+
+<?php if (!empty($error)): ?>
+  <div class="alert alert-danger py-2 rounded-3 mb-3" style="max-width: 800px;">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i> <?= htmlspecialchars($error) ?>
+  </div>
+<?php endif; ?>
+
+<div class="admin-card" style="max-width: 800px;">
+  <form action="index.php?act=product-create" method="POST" enctype="multipart/form-data">
+    <div class="row g-3">
+      <!-- Tên món tiếng Việt -->
+      <div class="col-12 col-md-8">
+        <label for="name" class="form-label text-white-50 small mb-1">Tên Món Ăn (Tiếng Việt) *</label>
+        <input type="text" class="form-control admin-input" id="name" name="name" placeholder="Ví dụ: Ba Chỉ Bò Mỹ Nướng Sốt Cay..." required autofocus />
+      </div>
+
+      <!-- Tên tiếng Hàn -->
+      <div class="col-12 col-md-4">
+        <label for="korean_name" class="form-label text-white-50 small mb-1">Tên Tiếng Hàn (Tùy chọn)</label>
+        <input type="text" class="form-control admin-input" id="korean_name" name="korean_name" placeholder="Ví dụ: 삼겹살..." />
+      </div>
+
+      <!-- Danh mục -->
+      <div class="col-12 col-md-6">
+        <label for="category_id" class="form-label text-white-50 small mb-1">Danh Mục Thực Đơn *</label>
+        <select class="form-select admin-select" id="category_id" name="category_id" required>
+          <option value="">-- Chọn danh mục --</option>
+          <?php foreach ($categories as $c): ?>
+            <option value="<?= $c['id'] ?>"><?= htmlspecialchars($c['name']) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
+      <!-- Đơn giá -->
+      <div class="col-12 col-md-6">
+        <label for="price" class="form-label text-white-50 small mb-1">Đơn Giá (VNĐ) *</label>
+        <input type="number" step="1000" min="0" class="form-control admin-input" id="price" name="price" placeholder="Ví dụ: 289000" required />
+      </div>
+
+      <!-- Huy hiệu / Badge -->
+      <div class="col-12 col-md-6">
+        <label for="badge" class="form-label text-white-50 small mb-1">Huy Hiệu Nổi Bật</label>
+        <input type="text" class="form-control admin-input" id="badge" name="badge" placeholder="Ví dụ: Best Seller, Signature, Cay Nồng..." />
+      </div>
+
+      <!-- Trạng thái -->
+      <div class="col-12 col-md-6">
+        <label for="status" class="form-label text-white-50 small mb-1">Trạng Thái Kinh Doanh</label>
+        <select class="form-select admin-select" id="status" name="status">
+          <option value="active" selected>Đang bán (Hiển thị đặt món)</option>
+          <option value="inactive">Tạm ngưng phục vụ</option>
+          <option value="out_of_stock">Tạm hết nguyên liệu</option>
+        </select>
+      </div>
+
+      <!-- Link URL Ảnh -->
+      <div class="col-12">
+        <label for="image" class="form-label text-white-50 small mb-1">Đường Dẫn Ảnh (URL Trực Tiếp)</label>
+        <input type="url" class="form-control admin-input" id="image" name="image" placeholder="https://images.unsplash.com/photo-..." />
+      </div>
+
+      <!-- Hoặc Upload file ảnh -->
+      <div class="col-12">
+        <label for="image_file" class="form-label text-white-50 small mb-1">Hoặc Tải Ảnh Lên Từ Máy Tính</label>
+        <input type="file" class="form-control admin-input" id="image_file" name="image_file" accept="image/*" />
+      </div>
+
+      <!-- Mô tả món ăn -->
+      <div class="col-12">
+        <label for="description" class="form-label text-white-50 small mb-1">Mô Tả Hương Vị & Thành Phần</label>
+        <textarea class="form-control admin-textarea" id="description" name="description" rows="3" placeholder="Mô tả nguyên liệu, phương pháp tẩm ướp sốt đặc trưng..."></textarea>
+      </div>
+    </div>
+
+    <div class="d-flex gap-2 mt-4 pt-2 border-top border-secondary border-opacity-25">
+      <button type="submit" class="btn btn-danger px-4 rounded-pill fw-semibold">
+        <i class="bi bi-plus-circle me-1"></i> Lưu Món Ăn
+      </button>
+      <a href="index.php?act=products" class="btn btn-outline-light px-4 rounded-pill">
+        Hủy Bỏ
+      </a>
+    </div>
+  </form>
+</div>
+
+<?php include_once __DIR__ . '/../layouts/footer.php'; ?>
