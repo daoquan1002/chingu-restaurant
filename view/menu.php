@@ -998,10 +998,10 @@
 
             closeCartFlyout();
 
-            // Điều hướng sang trang order.php kèm thông tin bàn
+            // Điều hướng sang trang order.php kèm thông tin bàn & cờ new=1 để đặt món mới
             const urlParams = new URLSearchParams(window.location.search);
             const tableParam = urlParams.get('table') || <?= json_encode($currentTable ?? '') ?>;
-            let targetOrderUrl = "index.php?pg=order";
+            let targetOrderUrl = "index.php?pg=order&new=1";
             if (tableParam) {
               targetOrderUrl += "&table=" + encodeURIComponent(tableParam);
             }

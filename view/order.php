@@ -452,28 +452,31 @@
         // Render giao diện đơn hàng
         function renderOrderPage() {
           const successScreen = document.getElementById("orderSuccessScreen");
-          if (successScreen && !successScreen.classList.contains("d-none")) {
-            return;
-          }
+          const heroBanner = document.getElementById("orderHeroBanner");
+          const pageWrapper = document.getElementById("orderPageWrapper");
 
-          if (!cart || cart.length === 0) {
-            if (orderEmptyState) orderEmptyState.classList.remove("d-none");
-            if (orderContentWrap) orderContentWrap.classList.add("d-none");
-            if (orderBottomFooterBar) orderBottomFooterBar.classList.add("d-none");
-            return;
-          }
+          // TRƯỜNG HỢP 1: Có món trong giỏ hàng -> Khách đang xác nhận đặt món
+          if (cart && cart.length > 0) {
+            // Ẩn màn hình thành công cũ (nếu có)
+            if (successScreen) successScreen.classList.add("d-none");
+            document.body.classList.remove("order-success-mode");
+            if (pageWrapper) {
+              pageWrapper.classList.remove("order-success-mode");
+              pageWrapper.classList.add("py-4", "py-lg-5");
+            }
+            if (heroBanner) heroBanner.classList.remove("d-none");
 
-          if (orderEmptyState) orderEmptyState.classList.add("d-none");
-          if (orderContentWrap) orderContentWrap.classList.remove("d-none");
-          if (orderBottomFooterBar) orderBottomFooterBar.classList.remove("d-none");
+            if (orderEmptyState) orderEmptyState.classList.add("d-none");
+            if (orderContentWrap) orderContentWrap.classList.remove("d-none");
+            if (orderBottomFooterBar) orderBottomFooterBar.classList.remove("d-none");
 
-          const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
-          const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
-          if (orderSummaryBadge) orderSummaryBadge.textContent = `${totalItems} món`;
-          if (subtotalAmount) subtotalAmount.textContent = formatMoney(totalPrice);
-          if (grandTotalAmount) grandTotalAmount.textContent = formatMoney(totalPrice);
-          if (footerGrandTotal) footerGrandTotal.textContent = formatMoney(totalPrice);
+            if (orderSummaryBadge) orderSummaryBadge.textContent = `${totalItems} món`;
+            if (subtotalAmount) subtotalAmount.textContent = formatMoney(totalPrice);
+            if (grandTotalAmount) grandTotalAmount.textContent = formatMoney(totalPrice);
+            if (footerGrandTotal) footerGrandTotal.textContent = formatMoney(totalPrice);
 
           // Render danh sách món (đã xóa nút thùng rác theo yêu cầu)
           let html = "";
@@ -540,7 +543,19 @@
               }
             });
           });
+        } else {
+          // TRƯỜNG HỢP 2: Giỏ hàng trống (!cart || cart.length === 0)
+          // Nếu có màn hình hoàn tất đơn (trường hợp vừa tạo đơn xong rồi reload trang) -> Giữ nguyên
+          if (successScreen && !successScreen.classList.contains("d-none")) {
+            return;
+          }
+
+          // Nếu không có món và cũng không có đơn thành công -> Hiện thông báo giỏ hàng trống
+          if (orderEmptyState) orderEmptyState.classList.remove("d-none");
+          if (orderContentWrap) orderContentWrap.classList.add("d-none");
+          if (orderBottomFooterBar) orderBottomFooterBar.classList.add("d-none");
         }
+      }
 
         // Chuyển đổi hai hình thức thanh toán (Tiền mặt hoặc Ngân hàng, không hiển thị mã QR)
         if (btnPayCash && btnPayBank) {

@@ -25,13 +25,19 @@ class OrderController {
         }
         $currentTable = $_SESSION['current_table'] ?? '';
 
+        // Nếu người dùng chủ động đặt món mới (từ menu sang với tham số ?new=1), dọn session đơn cũ
+        if (isset($_GET['new'])) {
+            unset($_SESSION['last_order']);
+        }
+
         // Kiểm tra xem có đơn hàng vừa tạo gần đây lưu trong session hay không (để reload trang không bị mất)
         $lastOrder = null;
         if (!empty($_SESSION['last_order'])) {
             $lastOrder = $_SESSION['last_order'];
             if (!empty($lastOrder['order_code'])) {
                 $dbOrder = Order::getOrderByCode($lastOrder['order_code']);
-                if ($dbOrder) {
+                // Chỉ giữ lại nếu đơn hàng thực sự tồn tại trong DB và đang trong quá trình phục vụ
+                if ($dbOrder && in_array($dbOrder['status'], ['pending', 'processing', 'delivering'])) {
                     $details = Order::getOrderDetails($dbOrder['id']);
                     $lastOrder['order_id'] = $dbOrder['id'];
                     $lastOrder['order_code'] = $dbOrder['order_code'];
@@ -43,7 +49,13 @@ class OrderController {
                     if (!empty($details)) {
                         $lastOrder['items'] = $details;
                     }
+                } else {
+                    unset($_SESSION['last_order']);
+                    $lastOrder = null;
                 }
+            } else {
+                unset($_SESSION['last_order']);
+                $lastOrder = null;
             }
         }
 
