@@ -44,7 +44,7 @@ Hệ thống phục vụ hai nhóm đối tượng chính:
 ## 3. CẤU TRÚC THƯ MỤC DỰ ÁN
 
 ```text
-WEBDA/
+chingu-restaurant/
 |-- admin/                              # Phân hệ quản trị dành cho quản lý & nhân viên
 |   |-- assets/                         # Tài nguyên CSS, JS, hình ảnh dành riêng cho admin
 |   |   |-- css/admin.css               # Giao diện trang quản trị
@@ -101,6 +101,7 @@ WEBDA/
 ## 4. CÁC TÍNH NĂNG NỔI BẬT CỦA HỆ THỐNG
 
 ### 4.1. Quy Trình Đặt Món Thông Minh Tại Bàn (QR Ordering)
+
 - Khách hàng quét mã QR tại bàn (ví dụ: `index.php?pg=menu&table=Bàn%2002`).
 - Hệ thống tự động ghi nhận số bàn vào session và giữ nguyên ngữ cảnh bàn trong suốt hành trình đặt món.
 - Kiểm tra tình trạng bàn: Nếu bàn đang ở trạng thái "Đang phục vụ", hệ thống tự động thông báo bàn hiện không khả dụng để đặt món nhằm tránh trường hợp gọi món chồng chéo.
@@ -109,6 +110,7 @@ WEBDA/
 - Cơ chế lưu Session đơn hàng: Khi khách hàng tải lại (reload) trang xác nhận đơn, hệ thống không bị chuyển hướng hay mất dữ liệu mà vẫn giữ nguyên màn hình đơn hàng vừa tạo.
 
 ### 4.2. Theo Dõi Đơn Hàng & Thanh Toán Tự Động (Real-time Tracking & VietQR)
+
 - Thanh tiến trình 4 bước theo dõi đơn hàng thời gian thực:
   - Bước 1: Tiếp nhận đơn hàng.
   - Bước 2: Vào bếp chế biến.
@@ -119,6 +121,7 @@ WEBDA/
 - Tra cứu đơn hàng: Cho phép khách hàng nhập mã đơn để kiểm tra tình trạng. Hệ thống tự động báo lỗi rõ ràng nếu nhập sai mã hoặc đơn không tồn tại, kèm viền đỏ cảnh báo và hỗ trợ chuẩn hóa mã có hoặc không có dấu thăng (#).
 
 ### 4.3. Quản Trị Hệ Thống & Tự Động Giải Phóng Bàn Ăn
+
 - Chuyển trạng thái đơn hàng nhanh chóng, trực quan trong giao diện quản trị Admin.
 - Tự động giải phóng bàn: Khi đơn hàng được quản trị viên đánh dấu là "Hoàn tất" hoặc "Hủy đơn", bàn ăn gắn liền với đơn hàng đó sẽ tự động được mở lại thành trạng thái "Bàn trống" để sẵn sàng đón lượt khách tiếp theo.
 - Quản lý và in mã QR: Cho phép ban quản lý thêm bàn mới và tạo mã QR đặt món tự động cho từng bàn chỉ với một thao tác.
@@ -128,6 +131,7 @@ WEBDA/
 ## 5. HƯỚNG DẪN CÀI ĐẶT VÀ KHỞI CHẠY DỰ ÁN
 
 ### 5.1. Yêu Cầu Hệ Thống
+
 - Hệ điều hành: Windows 10/11, macOS hoặc Linux.
 - Phần mềm máy chủ giả lập: XAMPP, WampServer hoặc Laragon hỗ trợ PHP 8.0 trở lên và MySQL 5.7+ / MariaDB 10.4+.
 - Trình duyệt web hiện đại: Google Chrome, Microsoft Edge, Mozilla Firefox hoặc Safari.
@@ -135,17 +139,20 @@ WEBDA/
 ### 5.2. Các Bước Thực Hiện
 
 #### Bước 1: Sao chép mã nguồn vào máy chủ web
+
 - Với XAMPP trên hệ điều hành Windows, sao chép toàn bộ thư mục dự án vào đường dẫn:
-  `C:\xampp\htdocs\WEBDA`
+  `C:\xampp\htdocs\chingu-restaurant`
   (hoặc thư mục htdocs tương ứng trên môi trường phát triển của bạn).
 
 #### Bước 2: Khởi động dịch vụ máy chủ
+
 - Mở bảng điều khiển XAMPP Control Panel.
 - Bấm nút "Start" cho hai dịch vụ:
   - Apache (Web Server)
   - MySQL (Database Server)
 
 #### Bước 3: Khởi tạo và nạp cơ sở dữ liệu MySQL
+
 1. Mở trình duyệt web và truy cập vào giao diện quản lý cơ sở dữ liệu phpMyAdmin:
    `http://localhost/phpmyadmin`
 2. Tạo một cơ sở dữ liệu mới:
@@ -155,11 +162,13 @@ WEBDA/
 3. Nạp dữ liệu từ tập tin SQL:
    - Chọn cơ sở dữ liệu `chingu-restaurant` vừa tạo ở danh sách bên trái.
    - Chọn thẻ "Import" (Nhập) trên thanh công cụ.
-   - Bấm nút "Choose File" (Chọn tập tin) và trỏ tới tập tin `chingu-restaurant.sql` nằm ở thư mục gốc của dự án (`WEBDA/chingu-restaurant.sql`).
+   - Bấm nút "Choose File" (Chọn tập tin) và trỏ tới tập tin `chingu-restaurant.sql` nằm ở thư mục gốc của dự án (`chingu-restaurant/chingu-restaurant.sql`).
    - Cuộn xuống dưới cùng và bấm nút "Import" để hoàn tất nạp cấu trúc bảng và dữ liệu khởi tạo.
 
 #### Bước 4: Kiểm tra cấu hình kết nối cơ sở dữ liệu
-Tập tin kết nối PDO đã được thiết lập sẵn tại đường dẫn `WEBDA/model/pdo.php`:
+
+Tập tin kết nối PDO đã được thiết lập sẵn tại đường dẫn `chingu-restaurant/model/pdo.php`:
+
 ```php
 function pdo_get_connection() {
     $dburl = "mysql:host=localhost;dbname=chingu-restaurant;charset=utf8mb4";
@@ -168,17 +177,18 @@ function pdo_get_connection() {
     ...
 }
 ```
+
 Nếu máy chủ MySQL của bạn có thiết lập mật khẩu riêng, vui lòng thay đổi giá trị của biến `$password` cho tương ứng.
 
 #### Bước 5: Truy cập và sử dụng hệ thống
 
 1. Dành cho khách hàng (Customer Site):
-   - Trang chủ: `http://localhost/WEBDA/index.php` (hoặc `http://localhost:3000/index.php`)
-   - Thực đơn chọn món tại bàn: `http://localhost/WEBDA/index.php?pg=menu&table=Bàn%2001`
-   - Tra cứu trạng thái đơn hàng: `http://localhost/WEBDA/index.php?pg=order-status`
+   - Trang chủ: `http://localhost/chingu-restaurant/index.php` (hoặc `http://localhost:3000/index.php`)
+   - Thực đơn chọn món tại bàn: `http://localhost/chingu-restaurant/index.php?pg=menu&table=Bàn%2001`
+   - Tra cứu trạng thái đơn hàng: `http://localhost/chingu-restaurant/index.php?pg=order-status`
 
 2. Dành cho quản trị viên và nhân viên (Admin Portal):
-   - Đường dẫn đăng nhập: `http://localhost/WEBDA/admin/index.php`
+   - Đường dẫn đăng nhập: `http://localhost/chingu-restaurant/admin/index.php`
    - Tài khoản quản trị viên (Admin):
      - Tên đăng nhập: `admin`
      - Mật khẩu: `123456`
@@ -190,20 +200,20 @@ Nếu máy chủ MySQL của bạn có thiết lập mật khẩu riêng, vui l�
 
 ## 6. DANH SÁCH CÁC TRANG VÀ ĐỊA CHỈ URL CHÍNH
 
-| Chức Năng | Đường Dẫn URL | Mô Tả |
-| :--- | :--- | :--- |
-| Trang chủ | `index.php?pg=home` | Giới thiệu nhà hàng, không gian ẩm thực, set menu tiêu biểu |
-| Thực đơn tổng | `index.php?pg=menu` | Danh sách toàn bộ món ăn có phân chia tab danh mục |
-| Thực đơn tại bàn | `index.php?pg=menu&table=Bàn%20XX` | Thực đơn kèm số bàn phục vụ được gắn theo mã QR |
-| Xác nhận đơn | `index.php?pg=order&table=Bàn%20XX` | Kiểm tra giỏ hàng, điền thông tin và xác nhận đặt món |
-| Theo dõi đơn | `index.php?pg=order-status&code=CG-XXXX` | Tiến trình bếp phục vụ, mã VietQR thanh toán và chi tiết món |
-| Tra cứu đơn | `index.php?pg=order-status` | Form tra cứu đơn hàng theo mã bất kỳ có kiểm tra lỗi |
-| Đăng nhập Admin | `admin/index.php?act=login` | Form xác thực dành cho nhân viên và ban quản lý |
-| Dashboard Admin | `admin/index.php?act=dashboard` | Thống kê doanh thu, đơn hàng, lượng khách và món bán chạy |
-| Quản lý đơn hàng | `admin/index.php?act=orders` | Danh sách đơn, lọc trạng thái, cập nhật tiến độ bếp |
-| Quản lý bàn & QR | `admin/index.php?act=tables` | Sơ đồ bàn, trạng thái bàn và bộ tạo mã QR động |
-| Quản lý món ăn | `admin/index.php?act=products` | Danh sách món ăn, thêm mới, sửa giá, tải ảnh món |
-| Quản lý danh mục | `admin/index.php?act=categories` | Quản lý nhóm món (Thịt nướng, Lẩu, Đồ uống,...) |
+| Chức Năng        | Đường Dẫn URL                            | Mô Tả                                                        |
+| :--------------- | :--------------------------------------- | :----------------------------------------------------------- |
+| Trang chủ        | `index.php?pg=home`                      | Giới thiệu nhà hàng, không gian ẩm thực, set menu tiêu biểu  |
+| Thực đơn tổng    | `index.php?pg=menu`                      | Danh sách toàn bộ món ăn có phân chia tab danh mục           |
+| Thực đơn tại bàn | `index.php?pg=menu&table=Bàn%20XX`       | Thực đơn kèm số bàn phục vụ được gắn theo mã QR              |
+| Xác nhận đơn     | `index.php?pg=order&table=Bàn%20XX`      | Kiểm tra giỏ hàng, điền thông tin và xác nhận đặt món        |
+| Theo dõi đơn     | `index.php?pg=order-status&code=CG-XXXX` | Tiến trình bếp phục vụ, mã VietQR thanh toán và chi tiết món |
+| Tra cứu đơn      | `index.php?pg=order-status`              | Form tra cứu đơn hàng theo mã bất kỳ có kiểm tra lỗi         |
+| Đăng nhập Admin  | `admin/index.php?act=login`              | Form xác thực dành cho nhân viên và ban quản lý              |
+| Dashboard Admin  | `admin/index.php?act=dashboard`          | Thống kê doanh thu, đơn hàng, lượng khách và món bán chạy    |
+| Quản lý đơn hàng | `admin/index.php?act=orders`             | Danh sách đơn, lọc trạng thái, cập nhật tiến độ bếp          |
+| Quản lý bàn & QR | `admin/index.php?act=tables`             | Sơ đồ bàn, trạng thái bàn và bộ tạo mã QR động               |
+| Quản lý món ăn   | `admin/index.php?act=products`           | Danh sách món ăn, thêm mới, sửa giá, tải ảnh món             |
+| Quản lý danh mục | `admin/index.php?act=categories`         | Quản lý nhóm món (Thịt nướng, Lẩu, Đồ uống,...)              |
 
 ---
 
