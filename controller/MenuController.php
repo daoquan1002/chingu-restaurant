@@ -9,6 +9,7 @@ class MenuController {
         $hasTable = false;
         $currentTable = '';
         $isTableOccupied = false;
+        $activeOrderCode = '';
 
         if (!empty($_GET['table'])) {
             $tableParam = trim($_GET['table']);
@@ -32,9 +33,10 @@ class MenuController {
             // Kiểm tra trạng thái bàn và các đơn hàng gắn với bàn
             if ($tableObj) {
                 // Kiểm tra xem bàn này có đơn hàng nào đang trong quá trình phục vụ không
-                $activeOrderSql = "SELECT COUNT(*) AS total FROM orders WHERE table_id = ? AND status NOT IN ('completed', 'cancelled')";
+                $activeOrderSql = "SELECT order_code FROM orders WHERE table_id = ? AND status NOT IN ('completed', 'cancelled') ORDER BY id DESC LIMIT 1";
                 $activeOrder = pdo_query_one($activeOrderSql, $tableObj['id']);
-                $hasActiveOrders = !empty($activeOrder['total']);
+                $hasActiveOrders = !empty($activeOrder);
+                $activeOrderCode = $activeOrder['order_code'] ?? '';
 
                 // Nếu các đơn hàng gắn với bàn đã chuyển sang 'completed' (hoặc 'cancelled') -> Tự động mở lại trạng thái bàn trống ('available')
                 if (!$hasActiveOrders && $tableObj['status'] === 'occupied') {

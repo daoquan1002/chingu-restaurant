@@ -83,10 +83,13 @@
               Bàn <strong class="text-warning"><?= htmlspecialchars($currentTable) ?></strong> hiện đang trong trạng thái phục vụ. Quý khách vui lòng liên hệ nhân viên để được hỗ trợ hoặc xem thực đơn tham khảo.
             </p>
             <div class="d-flex justify-content-center gap-2 flex-wrap">
-              <a href="index.php?pg=menu" class="btn btn-warning rounded-pill px-4 py-2 fw-bold text-dark shadow-sm">
+              <a href="index.php?pg=order-status<?= !empty($activeOrderCode) ? '&code=' . urlencode($activeOrderCode) : '' ?>" class="btn btn-warning rounded-pill px-4 py-2 fw-bold text-dark shadow-sm">
+                <i class="bi bi-receipt-cutoff me-1"></i> Tra cứu đơn đặt
+              </a>
+              <a href="index.php?pg=menu" class="btn btn-outline-light rounded-pill px-4 py-2 fw-semibold">
                 <i class="bi bi-book me-1"></i> Xem thực đơn
               </a>
-              <a href="index.php" class="btn btn-outline-light rounded-pill px-4 py-2 fw-semibold">
+              <a href="index.php" class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-semibold text-white-50">
                 <i class="bi bi-house me-1"></i> Trang chủ
               </a>
             </div>
