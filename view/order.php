@@ -190,9 +190,9 @@
           </p>
 
           <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-outline-light rounded-pill px-4 py-2 fw-semibold w-100 btn-view-status" id="btnViewOrderStatus">
+            <a href="index.php?pg=order-status<?= !empty($lastOrder['order_code']) ? '&code=' . urlencode($lastOrder['order_code']) : '' ?>" class="btn btn-outline-light rounded-pill px-4 py-2 fw-semibold w-100 btn-view-status text-center text-decoration-none" id="btnViewOrderStatus">
               Xem Trạng Thái
-            </button>
+            </a>
           </div>
         </div>
 
@@ -649,6 +649,9 @@
 
             const finalOrderCode = (data && data.order_code) ? data.order_code : orderCode;
             confirmedOrderTrackingCode = finalOrderCode;
+            if (btnViewOrderStatus) {
+              btnViewOrderStatus.href = "index.php?pg=order-status&code=" + encodeURIComponent(finalOrderCode);
+            }
 
             // Điền thông tin vào Modal xác nhận thành công
             document.getElementById("confirmedOrderCode").textContent = `#${finalOrderCode}`;

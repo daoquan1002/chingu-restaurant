@@ -61,7 +61,7 @@ CREATE TABLE `employees` (
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `employees` (
 
 LOCK TABLES `employees` WRITE;
 /*!40000 ALTER TABLE `employees` DISABLE KEYS */;
-INSERT INTO `employees` VALUES (1,'admin','$2y$10$e8cM9g1QYyT.m0eS/T4uYeD9kGkL0R2oP.C1x7yL.GvV.JqZqO0lS','Quản Trị Viên Chingu','admin','2026-11-15 12:41:52','2026-11-15 12:41:52'),(2,'staff','$2y$10$e8cM9g1QYyT.m0eS/T4uYeD9kGkL0R2oP.C1x7yL.GvV.JqZqO0lS','Nhân Viên Thu Ngân','staff','2026-11-15 12:41:52','2026-11-15 12:41:52');
+INSERT INTO `employees` VALUES (1,'admin','$2y$10$e8cM9g1QYyT.m0eS/T4uYeD9kGkL0R2oP.C1x7yL.GvV.JqZqO0lS','Quản Trị Viên Chingu','admin','2026-11-15 12:41:52','2026-11-15 12:41:52'),(2,'staff','$2y$10$e8cM9g1QYyT.m0eS/T4uYeD9kGkL0R2oP.C1x7yL.GvV.JqZqO0lS','Nhân Viên Thu Ngân','staff','2026-11-15 12:41:52','2026-11-15 12:41:52'),(3,'kitchen','$2y$10$MH73Lk4D0wwE0ZJVI9qjlel4LmA4rVIKp3WZdJZ7DtECldwWgqCk.','Bếp Trưởng Chingu','kitchen','2026-11-16 08:27:54','2026-11-16 08:27:54');
 /*!40000 ALTER TABLE `employees` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +96,7 @@ CREATE TABLE `order_details` (
   PRIMARY KEY (`id`),
   KEY `fk_detail_order` (`order_id`),
   KEY `fk_detail_product` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -133,7 +133,7 @@ CREATE TABLE `orders` (
   UNIQUE KEY `order_code` (`order_code`),
   KEY `fk_order_table` (`table_id`),
   KEY `fk_order_user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,7 +204,7 @@ CREATE TABLE `tables` (
 
 LOCK TABLES `tables` WRITE;
 /*!40000 ALTER TABLE `tables` DISABLE KEYS */;
-INSERT INTO `tables` VALUES (1,'Bàn 01',4,'available','2026-11-15 12:41:52','2026-11-15 16:35:01'),(2,'Bàn 02',4,'available','2026-11-15 12:41:52','2026-11-15 17:38:25'),(3,'Bàn 03',6,'available','2026-11-15 12:41:52','2026-11-15 17:38:25'),(4,'Bàn 04',6,'available','2026-11-15 12:41:52','2026-11-15 15:44:55'),(5,'Bàn 05',8,'available','2026-11-15 12:41:52','2026-11-15 17:38:25'),(6,'Bàn 06',4,'available','2026-11-15 12:41:52','2026-11-15 17:36:28'),(7,'Bàn 07',2,'available','2026-11-15 12:41:52','2026-11-15 12:41:52'),(8,'Bàn 08',4,'available','2026-11-15 12:41:52','2026-11-15 12:41:52');
+INSERT INTO `tables` VALUES (1,'Bàn 01',4,'available','2026-11-15 12:41:52','2026-11-16 08:10:28'),(2,'Bàn 02',4,'available','2026-11-15 12:41:52','2026-11-16 08:10:23'),(3,'Bàn 03',6,'available','2026-11-15 12:41:52','2026-11-16 08:27:40'),(4,'Bàn 04',6,'available','2026-11-15 12:41:52','2026-11-16 08:10:19'),(5,'Bàn 05',8,'available','2026-11-15 12:41:52','2026-11-16 08:10:11'),(6,'Bàn 06',4,'available','2026-11-15 12:41:52','2026-11-16 08:10:04'),(7,'Bàn 07',2,'available','2026-11-15 12:41:52','2026-11-15 12:41:52'),(8,'Bàn 08',4,'available','2026-11-15 12:41:52','2026-11-15 12:41:52');
 /*!40000 ALTER TABLE `tables` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -245,4 +245,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-11-15 17:38:36
+-- Dump completed on 2026-11-16  8:31:36

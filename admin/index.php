@@ -8,6 +8,8 @@ require_once __DIR__ . '/controller/CategoryController.php';
 require_once __DIR__ . '/controller/ProductController.php';
 require_once __DIR__ . '/controller/TableController.php';
 require_once __DIR__ . '/controller/OrderController.php';
+require_once __DIR__ . '/controller/UserController.php';
+require_once __DIR__ . '/controller/VietqrController.php';
 
 $authController = new AuthController();
 $dashboardController = new DashboardController();
@@ -15,6 +17,8 @@ $categoryController = new CategoryController();
 $productController = new ProductController();
 $tableController = new TableController();
 $orderController = new OrderController();
+$userController = new UserController();
+$vietqrController = new VietqrController();
 
 $act = $_GET['act'] ?? 'dashboard';
 
@@ -33,6 +37,36 @@ if ($act === 'login') {
 // Kiểm tra phiên đăng nhập của nhân viên/quản trị viên
 if (!isset($_SESSION['employee'])) {
     header('Location: index.php?act=login');
+    exit;
+}
+
+$userRole = $_SESSION['employee']['role'] ?? 'staff';
+
+// Đặt trang mặc định theo vai trò (Bếp vào thẳng trang Quản lý đơn hàng)
+if (empty($_GET['act'])) {
+    $act = ($userRole === 'kitchen') ? 'orders' : 'dashboard';
+}
+
+// Hệ thống phân quyền RBAC (Role-Based Access Control)
+$rolePermissions = [
+    'admin' => ['*'],
+    'staff' => [
+        'dashboard',
+        'orders', 'order-detail', 'order-status-update', 'order-payment-update',
+        'tables', 'table-create', 'table-status', 'table-qr'
+    ],
+    'kitchen' => [
+        'orders', 'order-detail', 'order-status-update'
+    ]
+];
+
+$allowedActs = $rolePermissions[$userRole] ?? $rolePermissions['staff'];
+
+// Kiểm tra quyền truy cập của vai trò hiện tại
+if ($allowedActs !== ['*'] && !in_array($act, $allowedActs)) {
+    $_SESSION['admin_error'] = 'Tài khoản của bạn (vai trò ' . strtoupper($userRole) . ') không có quyền truy cập chức năng này!';
+    $fallbackAct = ($userRole === 'kitchen') ? 'orders' : 'dashboard';
+    header("Location: index.php?act={$fallbackAct}");
     exit;
 }
 
@@ -100,6 +134,34 @@ switch ($act) {
         break;
     case 'order-payment-update':
         $orderController->updatePayment();
+        break;
+    case 'order-delete':
+        $orderController->delete();
+        break;
+
+    // 6. Quản lý tài khoản & phân quyền
+    case 'users':
+        $userController->index();
+        break;
+    case 'user-create':
+        $userController->create();
+        break;
+    case 'user-delete':
+        $userController->delete();
+        break;
+    case 'roles':
+        $userController->roles();
+        break;
+    case 'user-update-role':
+        $userController->updateRole();
+        break;
+
+    // 7. Cấu hình thanh toán VietQR
+    case 'vietqr':
+        $vietqrController->index();
+        break;
+    case 'vietqr-update':
+        $vietqrController->update();
         break;
 
     default:

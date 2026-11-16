@@ -136,5 +136,16 @@ class Order {
                 FROM orders";
         return pdo_query_one($sql);
     }
+
+    /**
+     * Xóa đơn hàng và toàn bộ chi tiết món của đơn
+     */
+    public static function deleteOrder($id) {
+        $sqlDetails = "DELETE FROM order_details WHERE order_id = ?";
+        pdo_execute($sqlDetails, $id);
+
+        $sqlOrder = "DELETE FROM orders WHERE id = ?";
+        return pdo_execute($sqlOrder, $id);
+    }
 }
 ?>

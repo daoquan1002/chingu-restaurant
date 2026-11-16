@@ -105,8 +105,13 @@
                 </div>
               </div>
             <?php else: ?>
-              <div class="alert alert-danger py-2 rounded-pill my-3">
-                <i class="bi bi-x-circle-fill me-1"></i> Đơn hàng này đã bị hủy bỏ bởi quản lý.
+              <div class="alert alert-danger py-2 px-3 rounded-3 my-3 text-center border-0 shadow-sm">
+                <div class="fw-bold mb-1" style="font-size: 0.95rem;">
+                  <i class="bi bi-x-circle-fill me-1"></i> Đơn hàng này đã bị hủy bởi quản lý.
+                </div>
+                <div class="small opacity-90" style="font-size: 0.82rem; line-height: 1.45;">
+                  Nếu quý khách đã thanh toán, vui lòng đến quầy thu ngân để tiến hành hoàn tiền.
+                </div>
               </div>
             <?php endif; ?>
 
@@ -225,7 +230,7 @@
                 value="<?= htmlspecialchars($rawCode ?? $orderCode ?? '') ?>" 
                 required 
               />
-              <button type="submit" class="btn btn-warning px-4 rounded-pill fw-bold text-dark text-nowrap flex-shrink-0">Tra cứu</button>
+              <button type="submit" class="btn btn-warning px-4 rounded-pill fw-bold text-dark text-nowrap flex-shrink-0" style="white-space: nowrap; min-width: 110px;">Tra cứu</button>
             </form>
           </div>
         <?php endif; ?>
@@ -263,6 +268,26 @@
           </div>
 
           <?php if ($order['payment_method'] === 'bank'): ?>
+            <?php
+              // Đọc cấu hình VietQR từ file cấu hình hệ thống
+              $vietqrConfig = [
+                'bank_id' => 'MB',
+                'bank_name' => 'MBBank (Quân Đội)',
+                'account_no' => '0987654321',
+                'account_name' => 'CHINGU RESTAURANT',
+                'template' => 'compact2',
+                'prefix' => 'CG'
+              ];
+              $configFile = __DIR__ . '/../config/vietqr.json';
+              if (file_exists($configFile)) {
+                $loaded = json_decode(file_get_contents($configFile), true);
+                if (is_array($loaded)) {
+                  $vietqrConfig = array_merge($vietqrConfig, $loaded);
+                }
+              }
+              $transferContent = ($vietqrConfig['prefix'] ? $vietqrConfig['prefix'] . ' ' : '') . $order['order_code'];
+              $vietqrImageUrl = "https://img.vietqr.io/image/{$vietqrConfig['bank_id']}-{$vietqrConfig['account_no']}-{$vietqrConfig['template']}.png?amount=" . intval($order['total_amount']) . "&addInfo=" . urlencode($transferContent) . "&accountName=" . urlencode($vietqrConfig['account_name']);
+            ?>
             <!-- HÌNH THỨC CHUYỂN KHOẢN NGÂN HÀNG (VIETQR) -->
             <div class="payment-bank-section text-center">
               <div class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 px-3 py-1 rounded-pill mb-2">
@@ -275,7 +300,7 @@
               <!-- Khung mã QR -->
               <div class="bg-white p-3 rounded-4 d-inline-block shadow-lg mx-auto mb-3" style="max-width: 250px;">
                 <img 
-                  src="https://img.vietqr.io/image/MB-0987654321-compact2.png?amount=<?= intval($order['total_amount']) ?>&addInfo=<?= urlencode('CG ' . $order['order_code']) ?>&accountName=<?= urlencode('CHINGU RESTAURANT') ?>" 
+                  src="<?= htmlspecialchars($vietqrImageUrl) ?>" 
                   alt="Mã VietQR Thanh Toán Chingu" 
                   class="img-fluid rounded-2"
                   style="display: block; width: 100%; height: auto;"
@@ -286,20 +311,20 @@
               <div class="bg-dark bg-opacity-75 p-3 rounded-3 border border-secondary border-opacity-25 text-start small mb-3">
                 <div class="d-flex justify-content-between align-items-center py-1 border-bottom border-secondary border-opacity-25">
                   <span class="text-white-50">Ngân hàng:</span>
-                  <span class="text-white fw-semibold">MB Bank (Quân Đội)</span>
+                  <span class="text-white fw-semibold"><?= htmlspecialchars($vietqrConfig['bank_name']) ?></span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center py-1 border-bottom border-secondary border-opacity-25">
                   <span class="text-white-50">Số tài khoản:</span>
                   <span class="text-warning fw-bold d-flex align-items-center gap-1">
-                    0987654321
-                    <button type="button" class="btn btn-link btn-sm text-warning p-0 ms-1 copy-btn" onclick="copyPaymentText('0987654321', this)" title="Sao chép số tài khoản">
+                    <?= htmlspecialchars($vietqrConfig['account_no']) ?>
+                    <button type="button" class="btn btn-link btn-sm text-warning p-0 ms-1 copy-btn" onclick="copyPaymentText('<?= htmlspecialchars($vietqrConfig['account_no']) ?>', this)" title="Sao chép số tài khoản">
                       <i class="bi bi-clipboard"></i>
                     </button>
                   </span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center py-1 border-bottom border-secondary border-opacity-25">
                   <span class="text-white-50">Chủ tài khoản:</span>
-                  <span class="text-white fw-semibold">CHINGU RESTAURANT</span>
+                  <span class="text-white fw-semibold"><?= htmlspecialchars($vietqrConfig['account_name']) ?></span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center py-1 border-bottom border-secondary border-opacity-25">
                   <span class="text-white-50">Số tiền:</span>
@@ -308,8 +333,8 @@
                 <div class="d-flex justify-content-between align-items-center py-1">
                   <span class="text-white-50">Nội dung CK:</span>
                   <span class="text-warning fw-bold d-flex align-items-center gap-1">
-                    CG <?= htmlspecialchars($order['order_code']) ?>
-                    <button type="button" class="btn btn-link btn-sm text-warning p-0 ms-1 copy-btn" onclick="copyPaymentText('CG <?= htmlspecialchars($order['order_code']) ?>', this)" title="Sao chép nội dung">
+                    <?= htmlspecialchars($transferContent) ?>
+                    <button type="button" class="btn btn-link btn-sm text-warning p-0 ms-1 copy-btn" onclick="copyPaymentText('<?= htmlspecialchars($transferContent) ?>', this)" title="Sao chép nội dung">
                       <i class="bi bi-clipboard"></i>
                     </button>
                   </span>

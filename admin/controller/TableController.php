@@ -53,6 +53,13 @@ class TableController {
      * Xóa bàn
      */
     public function delete() {
+        $userRole = $_SESSION['employee']['role'] ?? 'staff';
+        if ($userRole !== 'admin') {
+            $_SESSION['admin_error'] = 'Chỉ Quản trị viên (Admin) mới có quyền xóa bàn ăn!';
+            header('Location: index.php?act=tables');
+            exit;
+        }
+
         $id = intval($_GET['id'] ?? 0);
         if ($id > 0) {
             Table::deleteTable($id);

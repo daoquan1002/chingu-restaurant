@@ -21,11 +21,25 @@
 /* 2. THIẾT LẬP CƠ BẢN & TYPOGRAPHY */
 * {
   box-sizing: border-box;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE và Edge cũ */
+}
+
+/* Ẩn thanh cuộn trên tất cả các trình duyệt WebKit/Blink (Chrome, Safari, Edge, Cốc Cốc) */
+*::-webkit-scrollbar,
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 70px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 body {
@@ -35,6 +49,8 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 /* Font chữ nghệ thuật / Viết tay cho tiêu đề phong cách giống ảnh */

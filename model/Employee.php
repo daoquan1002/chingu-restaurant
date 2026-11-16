@@ -33,5 +33,30 @@ class Employee {
         $sql = "SELECT id, username, fullname, role, created_at FROM employees ORDER BY id ASC";
         return pdo_query($sql);
     }
+
+    /**
+     * Thêm tài khoản nhân viên mới
+     */
+    public static function createEmployee($username, $password, $fullname, $role = 'staff') {
+        $hashed = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO employees (username, password, fullname, role) VALUES (?, ?, ?, ?)";
+        return pdo_execute($sql, $username, $hashed, $fullname, $role);
+    }
+
+    /**
+     * Xóa tài khoản nhân viên
+     */
+    public static function deleteEmployee($id) {
+        $sql = "DELETE FROM employees WHERE id = ?";
+        return pdo_execute($sql, $id);
+    }
+
+    /**
+     * Cập nhật phân quyền / vai trò nhân viên
+     */
+    public static function updateRole($id, $role) {
+        $sql = "UPDATE employees SET role = ? WHERE id = ?";
+        return pdo_execute($sql, $role, $id);
+    }
 }
 ?>

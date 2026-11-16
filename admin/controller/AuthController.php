@@ -7,7 +7,8 @@ class AuthController {
      */
     public function login() {
         if (isset($_SESSION['employee'])) {
-            header('Location: index.php?act=dashboard');
+            $target = (($_SESSION['employee']['role'] ?? '') === 'kitchen') ? 'orders' : 'dashboard';
+            header("Location: index.php?act={$target}");
             exit;
         }
         $error = $_SESSION['login_error'] ?? '';
@@ -37,7 +38,8 @@ class AuthController {
                 'fullname' => $employee['fullname'],
                 'role' => $employee['role']
             ];
-            header('Location: index.php?act=dashboard');
+            $target = ($employee['role'] === 'kitchen') ? 'orders' : 'dashboard';
+            header("Location: index.php?act={$target}");
             exit;
         } else {
             $_SESSION['login_error'] = 'Tên đăng nhập hoặc mật khẩu không chính xác!';

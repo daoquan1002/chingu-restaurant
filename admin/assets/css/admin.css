@@ -1,449 +1,243 @@
 /* =========================================================================
-   CHINGU KOREAN BBQ & HOTPOT - ADMIN DASHBOARD DESIGN SYSTEM
-   Synchronized with Customer-Facing Theme (Dark Luxury BBQ Style)
+   CHINGU KOREAN BBQ & HOTPOT - ADMIN SUPPLEMENTARY STYLES (SB ADMIN COMPATIBLE)
    ========================================================================= */
 
-/* 1. DESIGN TOKENS & BIẾN MÀU SẮC CHỦ ĐẠO */
 :root {
-  /* Màu nhận diện thương hiệu Chingu */
-  --primary-red: #b81b24;          /* Đỏ ớt chuẩn Hàn */
-  --primary-red-hover: #d3202a;
-  --dark-red: #820e14;             /* Đỏ thẫm */
-  --deep-burgundy: #59090e;        /* Đỏ bordeaux đậm */
-  --hero-dark: #121011;            /* Nền tối sâu charcoal */
-  --charcoal-black: #181516;       /* Đen xám than hoa */
-  --accent-gold: #f3ad33;          /* Vàng đồng / Điểm nhấn */
-  --accent-gold-hover: #e09b23;
-
-  /* Theme Admin */
-  --admin-bg-dark: #121011;
-  --admin-sidebar-bg: #161314;
-  --admin-card-bg: #1c181a;
-  --admin-card-hover: #231e21;
-  --admin-border: rgba(255, 255, 255, 0.08);
-  --admin-border-focus: rgba(243, 173, 51, 0.45);
-  --admin-input-bg: #252021;
-  --admin-input-border: rgba(255, 255, 255, 0.12);
-  --admin-text-main: #f5f5f7;
-  --admin-text-muted: rgba(255, 255, 255, 0.65);
-  --admin-text-subtle: rgba(255, 255, 255, 0.4);
-
-  /* Radius & Shadows */
-  --border-radius-sm: 8px;
-  --border-radius: 14px;
-  --border-radius-lg: 18px;
-  --border-radius-pill: 50px;
-  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.5);
-  --shadow-glow-red: 0 4px 18px rgba(184, 27, 36, 0.4);
-  --shadow-glow-gold: 0 4px 18px rgba(243, 173, 51, 0.35);
-  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --primary-red: #b81b24;
+  --dark-red: #820e14;
+  --accent-gold: #f3ad33;
+  --border-radius-sm: 6px;
+  --border-radius: 10px;
+  --border-radius-lg: 14px;
 }
 
-/* 2. BASE STYLING & TYPOGRAPHY */
+/* Ẩn thanh cuộn toàn bộ trang quản trị nhưng vẫn cho phép cuộn nội dung mượt mà */
+html,
+body,
 * {
-  box-sizing: border-box;
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE và Edge cũ */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 
 body {
-  background-color: var(--admin-bg-dark);
-  color: var(--admin-text-main);
   font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  margin: 0;
-  padding: 0;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-/* Thanh cuộn phong cách tối sang trọng */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #141213;
-}
-::-webkit-scrollbar-thumb {
-  background: #2d2629;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-red);
-}
-
-/* 3. SIDEBAR QUẢN TRỊ */
-.admin-sidebar {
-  width: 260px;
-  min-height: 100vh;
-  background-color: var(--admin-sidebar-bg);
-  border-right: 1px solid var(--admin-border);
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 1020;
-  transition: transform 0.3s ease;
-}
-
-.admin-brand {
-  padding: 22px 20px;
-  border-bottom: 1px solid var(--admin-border);
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: #fff;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  letter-spacing: 0.5px;
-}
-
-.admin-brand small {
-  letter-spacing: 1px;
-}
-
-.admin-nav {
-  padding: 16px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  flex-grow: 1;
-  overflow-y: auto;
-}
-
-.admin-nav-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 11px 16px;
-  border-radius: var(--border-radius-sm);
-  color: var(--admin-text-muted);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.92rem;
-  transition: var(--transition-smooth);
-}
-
-.admin-nav-item i {
+/* Tinh chỉnh vị trí nút Toggle Sidebar ở góc trái ngoài cùng và Logo Chingu */
+.sb-topnav #sidebarToggle {
+  color: rgba(255, 255, 255, 0.75) !important;
   font-size: 1.15rem;
-  opacity: 0.9;
+  padding: 0.5rem 0.75rem;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.admin-nav-item:hover {
-  color: #fff;
-  background-color: rgba(255, 255, 255, 0.05);
-  transform: translateX(3px);
+.sb-topnav #sidebarToggle:hover {
+  color: #ffffff !important;
+  transform: scale(1.08);
 }
 
-.admin-nav-item.active {
-  color: #fff;
-  font-weight: 600;
-  background: linear-gradient(135deg, #e63946, #b81b24);
-  box-shadow: var(--shadow-glow-red);
+.sb-topnav .navbar-brand {
+  width: auto !important;
+  margin-right: 1.5rem;
 }
 
-/* 4. VÙNG NỘI DUNG CHÍNH (MAIN WRAPPER) */
-.admin-main-wrap {
-  margin-left: 260px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--admin-bg-dark);
+/* Khung đăng nhập quản trị bo góc mềm mại, sang trọng */
+.card-login {
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65) !important;
 }
 
-@media (max-width: 991.98px) {
-  .admin-sidebar {
-    transform: translateX(-100%);
-  }
-  .admin-sidebar.show {
-    transform: translateX(0);
-    box-shadow: 0 0 35px rgba(0, 0, 0, 0.8);
-  }
-  .admin-main-wrap {
-    margin-left: 0;
-  }
+.card-login .card-header {
+  border-top-left-radius: 20px !important;
+  border-top-right-radius: 20px !important;
 }
 
-/* 5. TOPBAR (THANH ĐIỀU HƯỚNG TRÊN CÙNG) */
-.admin-topbar {
-  background-color: rgba(22, 19, 20, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--admin-border);
-  padding: 14px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 1010;
+.card-login .card-body {
+  border-bottom-left-radius: 20px !important;
+  border-bottom-right-radius: 20px !important;
 }
 
-/* 6. THẺ NỘI DUNG & THỐNG KÊ (CARDS & STATS) */
-.admin-card {
-  background-color: var(--admin-card-bg);
-  border: 1px solid var(--admin-border);
-  border-radius: var(--border-radius);
-  padding: 22px;
-  box-shadow: var(--shadow-card);
-  transition: var(--transition-smooth);
+/* Ẩn hoàn toàn ô tìm kiếm nhanh mặc định của Simple-DataTables */
+.datatable-search {
+  display: none !important;
 }
 
-.admin-card:hover {
-  border-color: rgba(255, 255, 255, 0.14);
-}
+/* =========================================================================
+   KHOẢNG CÁCH NÚT BẤM (BUTTON SPACING CHUẨN ADMIN)
+   ========================================================================= */
 
-.admin-stat-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  overflow: hidden;
-}
-
-.admin-stat-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
-  border-color: var(--admin-border-focus);
-}
-
-.stat-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  display: flex;
+/* Khoảng cách cho các nút bấm trong bảng dữ liệu */
+.table td .btn,
+table td .btn {
+  margin: 3px 3px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.6rem;
-  flex-shrink: 0;
-}
-
-/* 7. BẢNG DỮ LIỆU (ADMIN TABLES) */
-.table-responsive {
-  border-radius: var(--border-radius-sm);
-  overflow-x: auto;
-}
-
-.admin-table {
-  width: 100%;
-  color: var(--admin-text-main);
-  border-collapse: separate;
-  border-spacing: 0;
-  margin-bottom: 0;
-}
-
-.admin-table th {
-  background-color: rgba(255, 255, 255, 0.03);
-  color: var(--admin-text-muted);
-  font-weight: 600;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--admin-border);
+  gap: 0.35rem;
+  vertical-align: middle;
   white-space: nowrap;
 }
 
-.admin-table td {
-  padding: 14px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  vertical-align: middle;
-  font-size: 0.92rem;
+/* Các nút đặt liền kề nhau */
+.btn + .btn {
+  margin-left: 0.45rem;
 }
 
-.admin-table tbody tr {
-  transition: background-color 0.2s ease;
+/* Nút bấm trong các hàng thao tác d-flex */
+.d-flex > .btn,
+.d-inline-flex > .btn {
+  margin: 2px 2px;
 }
 
-.admin-table tbody tr:hover td {
-  background-color: rgba(255, 255, 255, 0.025);
+/* Cột thao tác cuối bảng: Đảm bảo độ rộng và khoảng cách các nút */
+.table th:last-child,
+.table td:last-child,
+.table th.text-end,
+.table td.text-end,
+table th:last-child,
+table td:last-child,
+table th.text-end,
+table td.text-end {
+  min-width: 130px !important;
+  white-space: nowrap !important;
 }
 
-/* 8. FORM CONTROLS & INPUTS (ĐỒNG BỘ VỚI USER FORM) */
-.admin-input,
-.admin-select,
-.admin-textarea,
-.form-control,
-.form-select {
-  background-color: var(--admin-input-bg) !important;
-  border: 1px solid var(--admin-input-border) !important;
-  color: #ffffff !important;
-  border-radius: 10px !important;
-  padding: 10px 14px !important;
-  font-size: 0.95rem;
-  transition: var(--transition-smooth);
+.table td.text-end .d-inline-flex,
+.table td.text-end .d-flex {
+  gap: 8px !important;
 }
 
-.admin-input::placeholder,
-.form-control::placeholder {
-  color: var(--admin-text-subtle);
-}
-
-.admin-input:focus,
-.admin-select:focus,
-.admin-textarea:focus,
-.form-control:focus,
-.form-select:focus {
-  border-color: var(--accent-gold) !important;
-  background-color: #2b2527 !important;
-  box-shadow: 0 0 0 3px rgba(243, 173, 51, 0.22) !important;
-  outline: none;
-}
-
-.input-group-text {
-  background-color: #1e191a !important;
-  border-color: var(--admin-input-border) !important;
-  color: var(--admin-text-muted) !important;
-  border-radius: 10px 0 0 10px !important;
-}
-
-/* 9. NÚT BẤM (BUTTONS - ĐỒNG BỘ NÚT BO TRÒN & GRADIENT) */
-.btn {
-  font-family: inherit;
-  transition: var(--transition-smooth);
-}
-
-.btn-danger,
-.btn-primary-action {
-  background: linear-gradient(135deg, #e63946, #b81b24) !important;
-  border: none !important;
-  color: #ffffff !important;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(230, 57, 70, 0.35);
-}
-
-.btn-danger:hover,
-.btn-primary-action:hover {
-  background: linear-gradient(135deg, #f04351, #c5202a) !important;
-  color: #ffffff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(230, 57, 70, 0.5);
-}
-
-.btn-warning {
-  background: linear-gradient(135deg, #f5b338, #d48b17) !important;
-  border: none !important;
-  color: #181516 !important;
-  font-weight: 700;
-  box-shadow: 0 4px 15px rgba(243, 173, 51, 0.35);
-}
-
-.btn-warning:hover {
-  background: linear-gradient(135deg, #ffc04d, #e09b23) !important;
-  color: #000000 !important;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(243, 173, 51, 0.5);
-}
-
-.btn-outline-warning {
-  border-color: var(--accent-gold) !important;
-  color: var(--accent-gold) !important;
-}
-
-.btn-outline-warning:hover {
-  background-color: var(--accent-gold) !important;
-  color: #181516 !important;
-  transform: translateY(-2px);
-}
-
-.btn-outline-light {
-  border-color: rgba(255, 255, 255, 0.25) !important;
-  color: #ffffff !important;
-}
-
-.btn-outline-light:hover {
-  background-color: rgba(255, 255, 255, 0.15) !important;
-  border-color: rgba(255, 255, 255, 0.45) !important;
-  color: #ffffff !important;
-  transform: translateY(-2px);
-}
-
-.btn-outline-danger {
-  border-color: rgba(230, 57, 70, 0.6) !important;
-  color: #ff6b77 !important;
-}
-
-.btn-outline-danger:hover {
-  background-color: var(--primary-red) !important;
-  border-color: var(--primary-red) !important;
-  color: #ffffff !important;
-  transform: translateY(-2px);
-}
-
-/* 10. HUY HIỆU TRẠNG THÁI (STATUS BADGES) */
-.badge {
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  padding: 6px 12px;
-}
-
+/* Custom Status Badges */
 .badge-order-pending {
-  background-color: #64748b;
-  color: #ffffff;
+  background-color: #ffc107;
+  color: #000;
+  font-weight: 600;
+}
+
+/* Làm nổi bật đơn hàng mới trong bảng quản lý đơn hàng */
+.table-row-new-order {
+  background-color: rgba(255, 193, 7, 0.18) !important;
+  border-left: 4px solid #ffc107 !important;
+  animation: glow-new-order 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow-new-order {
+  0% {
+    background-color: rgba(255, 193, 7, 0.12);
+  }
+  100% {
+    background-color: rgba(255, 193, 7, 0.28);
+  }
+}
+
+.badge-new-pulse {
+  animation: pulse-badge 1.5s infinite;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+@keyframes pulse-badge {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 6px rgba(220, 53, 69, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+  }
 }
 
 .badge-order-preparing {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: #000000;
-  font-weight: 700;
-  box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+  background-color: #0dcaf0;
+  color: #000;
+  font-weight: 600;
 }
 
 .badge-order-served {
-  background: linear-gradient(135deg, #06b6d4, #0891b2);
-  color: #000000;
-  font-weight: 700;
-  box-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
+  background-color: #0d6efd;
+  color: #fff;
+  font-weight: 600;
 }
 
 .badge-order-completed {
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: #ffffff;
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.35);
+  background-color: #198754;
+  color: #fff;
+  font-weight: 600;
 }
 
 .badge-order-cancelled {
-  background-color: #ef4444;
-  color: #ffffff;
+  background-color: #dc3545;
+  color: #fff;
+  font-weight: 600;
 }
 
-.table-status-available { color: #10b981; font-weight: 600; }
-.table-status-occupied { color: #ef4444; font-weight: 600; }
+/* Table status badges */
+.table-status-available { color: #198754; font-weight: 600; }
+.table-status-occupied { color: #dc3545; font-weight: 600; }
 
-/* 11. HỘP THOẠI MODAL */
-.modal-content {
-  background-color: #1a1718;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--border-radius-lg);
-  color: #ffffff;
-  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.85);
+/* Trạng thái trống (Empty State) chuẩn cho toàn bộ các bảng dữ liệu admin */
+.table-empty-state {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 2.75rem 1rem !important;
+  text-align: center !important;
+  width: 100% !important;
 }
 
-.modal-header {
-  border-bottom: 1px solid var(--admin-border);
-  padding: 18px 24px;
+.table-empty-state i {
+  font-size: 2.75rem !important;
+  margin-bottom: 0.85rem !important;
+  opacity: 0.45 !important;
+  display: inline-block !important;
 }
 
-.modal-footer {
-  border-top: 1px solid var(--admin-border);
-  padding: 16px 24px;
+.table-empty-state .empty-title {
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  color: #495057 !important;
+  margin-bottom: 0.25rem !important;
 }
 
-.btn-close {
-  filter: invert(1) grayscale(100%);
-  opacity: 0.7;
-}
-.btn-close:hover {
-  opacity: 1;
+.table-empty-state .empty-desc {
+  font-size: 0.85rem !important;
+  color: #6c757d !important;
 }
 
-/* 12. TIẾN TRÌNH THEO DÕI ĐƠN HÀNG (ORDER STEPPER / TIMELINE) */
+/* Product Thumbnail */
+.admin-prod-thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Order Stepper (Timeline) */
 .order-progress-track {
   display: flex;
   justify-content: space-between;
   position: relative;
-  margin: 24px 0 16px 0;
+  margin: 20px 0 10px 0;
 }
 
 .order-progress-track::before,
@@ -462,51 +256,51 @@ body {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #252021;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.45);
+  background: #e9ecef;
+  border: 2px solid #ced4da;
+  color: #6c757d;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 8px auto;
   font-size: 1.15rem;
-  transition: var(--transition-smooth);
+  transition: all 0.3s ease;
 }
 
 .step-label {
-  font-size: 0.82rem;
-  color: var(--admin-text-muted);
+  font-size: 0.85rem;
+  color: #6c757d;
   font-weight: 500;
-  transition: var(--transition-smooth);
 }
 
 .track-step.completed .step-dot {
-  background: #10b981;
-  border-color: #34d399;
+  background: #198754;
+  border-color: #198754;
   color: #ffffff;
 }
 
 .track-step.completed .step-label {
-  color: #ffffff;
+  color: #198754;
+  font-weight: 600;
 }
 
 .track-step.active .step-dot {
-  background: linear-gradient(135deg, #e63946, #b81b24);
-  border-color: #ff4d5a;
+  background: #dc3545;
+  border-color: #b02a37;
   color: #ffffff;
-  box-shadow: 0 0 20px rgba(230, 57, 70, 0.7);
+  box-shadow: 0 0 15px rgba(220, 53, 69, 0.5);
   animation: pulse-step-glow 2s infinite;
 }
 
 .track-step.active .step-label {
-  color: var(--accent-gold);
+  color: #dc3545;
   font-weight: 700;
 }
 
 @keyframes pulse-step-glow {
-  0% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7); }
-  70% { box-shadow: 0 0 0 12px rgba(230, 57, 70, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.6); }
+  70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
 }
 
 @media (max-width: 575.98px) {
